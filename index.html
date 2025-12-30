@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>HAIKAL LEARNING CENTER "IPAS HOTS Kelas 5"</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0b3d2e;
+    color: white;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 38px;
+}
+
+/* Foto pojok dengan efek cahaya */
+.top-image {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 130px;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px #00ffcc,
+        0 0 30px #00ffcc,
+        0 0 45px #00ffcc;
+}
+
+/* Kuis box */
+.quiz-box {
+    max-width: 900px;
+    margin: auto;
+    background: #145a44;
+    padding: 30px;
+    border-radius: 15px;
+    font-size: 22px;
+}
+
+.question {
+    margin-bottom: 25px;
+}
+
+.options label {
+    display: block;
+    margin: 8px 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.correct {
+    background-color: #1e8449;
+    color: #ffffff;
+}
+
+.wrong {
+    background-color: #c0392b;
+    color: #ffffff;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 15px 35px;
+    font-size: 22px;
+    border: none;
+    border-radius: 10px;
+    background: #f1c40f;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #f39c12;
+}
+
+#result {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<img src="HKL.jpeg" class="top-image" alt="logo">
+
+<h1>HAIKAL LEARNING CENTER "IPAS HOTS Kelas 5"</h1>
+
+<div class="quiz-box" id="quiz"></div>
+
+<button onclick="submitQuiz()">SELESAI</button>
+
+<div id="result"></div>
+
+<script>
+const questions = [
+{q:"Penebangan hutan liar dapat menyebabkan bencana berupa …", o:["Kekeringan","Tanah longsor","Hujan salju","Gempa"], a:1},
+{q:"Jika ular di sawah berkurang, maka populasi tikus akan …", o:["Menurun","Tetap","Meningkat","Hilang"], a:2},
+{q:"Fungsi utama tumbuhan bakau adalah …", o:["Hiasan","Tempat wisata","Menahan abrasi","Bahan bangunan"], a:2},
+{q:"Contoh menjaga lingkungan adalah …", o:["Membuang sampah","Menanam pohon","Membakar sampah","Menebang pohon"], a:1},
+{q:"Rantai makanan terganggu jika …", o:["Air cukup","Hewan punah","Tanaman tumbuh","Matahari ada"], a:1},
+{q:"Organ yang mengedarkan oksigen ke seluruh tubuh adalah …", o:["Paru-paru","Jantung","Ginjal","Lambung"], a:1},
+{q:"Paru-paru berfungsi untuk …", o:["Menyaring darah","Mengatur suhu","Pertukaran gas","Mengolah makanan"], a:2},
+{q:"Merokok berbahaya karena …", o:["Menyehatkan","Mengandung racun","Menambah oksigen","Menyegarkan"], a:1},
+{q:"Makanan bergizi berfungsi untuk …", o:["Cepat lapar","Kuat bermain","Menjaga kesehatan","Mengantuk"], a:2},
+{q:"Kurang vitamin D menyebabkan …", o:["Rabun","Anemia","Rakitis","Demam"], a:2},
+{q:"Panel surya mengubah energi matahari menjadi …", o:["Panas","Gerak","Listrik","Kimia"], a:2},
+{q:"Kipas angin mengubah energi listrik menjadi …", o:["Cahaya","Panas","Gerak","Bunyi"], a:2},
+{q:"Mengayuh sepeda adalah perubahan energi …", o:["Gerak ke panas","Kimia ke gerak","Listrik ke panas","Cahaya ke gerak"], a:1},
+{q:"Energi alternatif penting karena …", o:["Murah","Terbatas","Ramah lingkungan","Langka"], a:2},
+{q:"Contoh energi angin dimanfaatkan pada …", o:["Panel surya","Kincir angin","Kompor","Lampu"], a:1},
+{q:"Siang dan malam terjadi karena …", o:["Revolusi bumi","Rotasi bumi","Gravitasi","Awan"], a:1},
+{q:"Gerhana matahari terjadi saat …", o:["Bulan menutupi matahari","Bumi menutupi bulan","Matahari hilang","Awan gelap"], a:0},
+{q:"Musim di Indonesia dipengaruhi oleh …", o:["Rotasi bumi","Angin muson","Bulan","Bintang"], a:1},
+{q:"Manfaat gunung meletus adalah …", o:["Banjir","Tanah subur","Panas","Longsor"], a:1},
+{q:"Indonesia rawan gempa karena …", o:["Banyak hujan","Gunung tinggi","Pertemuan lempeng","Hutan luas"], a:2},
+{q:"Sampah organik dapat diolah menjadi …", o:["Plastik","Kompos","Logam","Kaca"], a:1},
+{q:"Air kotor dapat dijernihkan dengan cara …", o:["Disaring","Dibekukan","Didiamkan","Dicampur"], a:0},
+{q:"Lampu LED hemat energi karena …", o:["Terang","Panas","Daya kecil","Besar"], a:2},
+{q:"Tujuan daur ulang adalah …", o:["Menambah sampah","Mengurangi limbah","Mencemari","Mengotori"], a:1},
+{q:"Menghemat air penting karena …", o:["Murah","Langka","Tidak berguna","Berlebihan"], a:1},
+{q:"Hujan deras + selokan tersumbat menyebabkan …", o:["Gempa","Banjir","Kekeringan","Angin"], a:1},
+{q:"Tanaman butuh cahaya untuk …", o:["Bernapas","Tumbuh","Minum","Berjalan"], a:1},
+{q:"Menjaga paru-paru dapat dilakukan dengan …", o:["Merokok","Olahraga","Begadang","Diam"], a:1},
+{q:"Polusi udara disebabkan oleh …", o:["Pohon","Kendaraan","Air","Tanah"], a:1},
+{q:"Mengurangi pemanasan global dengan …", o:["Menanam pohon","Membakar sampah","AC terus","Menebang"], a:0}
+];
+
+const quizDiv = document.getElementById("quiz");
+
+questions.forEach((item, index) => {
+    quizDiv.innerHTML += `
+    <div class="question" id="q${index}">
+        <p>${index+1}. ${item.q}</p>
+        <div class="options">
+            ${item.o.map((opt,i)=>`
+                <label>
+                    <input type="radio" name="q${index}" value="${i}">
+                    ${opt}
+                </label>
+            `).join("")}
+        </div>
+    </div>`;
+});
+
+function submitQuiz(){
+    let score = 0;
+
+    questions.forEach((item, index)=>{
+        const options = document.querySelectorAll(`#q${index} label`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+
+        options.forEach((label, i)=>{
+            if(i === item.a){
+                label.classList.add("correct");
+            }
+        });
+
+        if(selected){
+            const selectedLabel = selected.parentElement;
+            if(parseInt(selected.value) === item.a){
+                score++;
+            } else {
+                selectedLabel.classList.add("wrong");
+            }
+        }
+    });
+
+    document.getElementById("result").innerHTML =
+        `🎉 Skor Anda: <b>${score} / ${questions.length}</b>`;
+}
+</script>
+
+</body>
+</html>
